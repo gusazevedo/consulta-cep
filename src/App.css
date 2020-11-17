@@ -11,3 +11,25 @@
 .form-control-group label {
   margin-bottom: 5px;
 }
+
+input {
+  border-radius: 5px;
+  border: solid 3px;
+  border-color: #7159c1;
+  padding: 5px;
+}
+
+select {
+  border-radius: 5px;
+  border: solid 3px;
+  border-color: #7159c1;
+  padding: 5px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #39cd5e;
+  color: #fff;
+}
