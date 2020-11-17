@@ -8,22 +8,27 @@ function App() {
     console.log("SUBMIT", values);
   }
 
-  function onBlurCep(e) {
-    const { value } = e.target
+  function onBlurCep(e, setFieldValue) {
+    const { value } = e.target;
 
     // o regex só vai ler tudo que estiver de 0-9
-    const cep = value.replace(/[^0-9]/g, '');
-    
+    const cep = value?.replace(/[^0-9]/g, "");
+
     // O "?" é um optional chaining.
     // Se isso existe (lenght) quero acessar o valor de lenght
-    if(value?.length !== 8) {
+    if (cep?.length !== 8) {
       return;
     }
 
     // a alternativa para o fetch seria o axios
-    fetch(`https://viacep.com.br/ws/${value}/json/`)
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        setFieldValue('logradouro', data.logradouro);
+        setFieldValue('bairro', data.bairro);
+        setFieldValue('cidade', data.localidade);
+        setFieldValue('uf', data.uf);
+      });
   }
 
   return (
@@ -40,12 +45,12 @@ function App() {
           cidade: "",
           uf: "",
         }}
-        render={({ isValid }) => (
+        render={({ isValid, setFieldValue }) => (
           <Form>
             <h2>Verificar CEP</h2>
             <div className="form-control-group">
               <label>CEP:</label>
-              <Field name="cep" type="text" onBlur={onBlurCep}/>
+              <Field name="cep" type="text" onBlur={(e) => onBlurCep(e, setFieldValue)} />
             </div>
             <div className="form-control-group">
               <label>Logradouro:</label>
